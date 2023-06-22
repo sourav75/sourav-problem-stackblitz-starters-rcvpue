@@ -1,9 +1,10 @@
 function curry(func) {
   const curried = function (...args) {
     if (func.length <= args.length) {
-      const result = func(...args);
+      const result = func.apply(this, [...args]);
       return result;
     }
+
     return function (...x) {
       const res = curried.apply(this, [...args, ...x]);
       return res;
