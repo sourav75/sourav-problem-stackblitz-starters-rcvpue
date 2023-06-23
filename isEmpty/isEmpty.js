@@ -24,13 +24,37 @@ isEmpty(Buffer.alloc(1)); // false;
 
 */
 
-const isEmpty = function (value) {
-  let res = false;
-  if (!value || typeof value != 'object') res = true;
-  else res = value.length < 1;
-  console.log(res);
-  return res;
-};
+// Refer to https://github.com/lodash/lodash/blob/4.17.15-es/TODO_REPLACE_ME.js
+
+function isEmpty(value) {
+  if (value == null) {
+    return true;
+  }
+
+  const valueType = typeof value;
+
+  // Arrays/Strings/Buffers.
+  if (
+    Array.isArray(value) ||
+    valueType === 'string' ||
+    Buffer.isBuffer(value)
+  ) {
+    return value.length === 0;
+  }
+
+  // Map/Set.
+  if (value instanceof Map || value instanceof Set) {
+    return value.size === 0;
+  }
+
+  // Plain object.
+  const prototype = Object.getPrototypeOf(value);
+  if (prototype === null || prototype === Object.prototype) {
+    return Object.keys(value).length === 0;
+  }
+
+  return true;
+}
 
 module.exports = {
   isEmpty,
