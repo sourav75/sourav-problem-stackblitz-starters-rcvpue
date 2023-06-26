@@ -54,11 +54,11 @@ function debounce(callback, wait = 0) {
   function quickCall() {
     if (interval == null) return;
     clear();
-    callback.apply(this, argsToCall);
+    callback.apply(this, [...argsToCall]);
   }
   function debounced(...args) {
     clear();
-    argsToCall = args;
+    argsToCall = [...args];
     context = this;
     interval = setTimeout(function () {
       quickCall();
